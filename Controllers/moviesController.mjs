@@ -4,16 +4,6 @@ let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
 
 const checkId = (req, res, next, value) => {
   console.log("Movie ID is" + value);
-  let id = value;
-  let movie = movies.find((ele) => {
-    return ele.id === id;
-  });
-  if (!movie) {
-    return res.status(404).json({
-      status: "failed",
-      data: "Movie not found with " + id + " this id",
-    });
-  }
 };
 
 const getMovies = (req, res) => {
@@ -47,6 +37,15 @@ const getOneMovie = (req, res) => {
   //   res.send("Request using the id");
   let id = +req.params.id;
   //   let movie = movies[id];
+  let movie = movies.find((ele) => {
+    return ele.id === id;
+  });
+  if (!movie) {
+    return res.status(404).json({
+      status: "failed",
+      data: "Movie not found with " + id + " this id",
+    });
+  }
 
   res.status(200).json({
     status: "success",
