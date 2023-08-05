@@ -1,105 +1,109 @@
-import * as fs from "fs";
+import Movie from "../models/movieModel.js";
 
-let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
-
-const checkId = (req, res, next, value) => {
-  console.log("Movie ID is" + value);
-};
-
-const getMovies = (req, res) => {
-  res.status(200).json({
-    requestedAt: req.requestedAt,
-    status: "success",
-    data: {
-      movies: movies,
-    },
-  });
-};
-const createMovie = (req, res) => {
-  const newId = movies[movies.length - 1].id + 1;
-
-  const newMovie = Object.assign({ id: newId }, req.body);
-
-  movies.push(newMovie);
-
-  fs.writeFile("./data/movies.json", JSON.stringify(movies), (err, data) => {
-    res.status(201).json({
-      status: "success",
-      data: {
-        movie: newMovie,
-      },
-    });
-  });
-};
-
-const getOneMovie = (req, res) => {
-  console.log(req.params);
-  //   res.send("Request using the id");
-  let id = +req.params.id;
-  //   let movie = movies[id];
-  let movie = movies.find((ele) => {
-    return ele.id === id;
-  });
-  if (!movie) {
-    return res.status(404).json({
+const validateBody = (req, res, next) => {
+  console.log("reached validateBody");
+  if (!req.body.name || !req.body.releaseYear) {
+    return res.status(400).json({
       status: "failed",
-      data: "Movie not found with " + id + " this id",
+      message: "Bad request!!! Movie must contain name and release year",
     });
   }
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      movie: movie,
-    },
-  });
+  next();
 };
 
-const updateMovie = (req, res) => {
-  let id = +req.params.id;
-
-  let movieToUpdate = movies.find((el) => el.id === id);
-  let index = movies.indexOf(movieToUpdate);
-  console.log(index, "index");
-
-  if (!movieToUpdate) {
-    return res.status(404).json({
-      status: "fail",
-      data: "NO movie object with ID " + id + " is found",
-    });
-  }
-  Object.assign(movieToUpdate, req.body);
-  movies[index] = movieToUpdate;
-  fs.writeFile("./data/movies.json", JSON.stringify(movies), () => {
+const getMovies = async (req, res) => {
+  try {
+    const movies = await Movie.find();
     res.status(200).json({
       status: "success",
       data: {
-        movie: movieToUpdate,
+        movie: { movies },
       },
     });
-  });
-};
-
-const deleteMovie = (req, res) => {
-  const id = +req.params.id;
-  const movieToDelete = movies.find((el) => el.id === id);
-  const index = movies.indexOf(movieToDelete);
-  if (!movieToDelete) {
-    return res.status(404).json({
+  } catch (error) {
+    console.log("error while get all movies", error);
+    res.status(404).json({
       status: "fail",
-      data: "NO movie object with ID " + id + " is found",
+      message: error,
     });
   }
-  movies.splice(index, 1);
-  console.log(index);
-  fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
-    res.status(204).json({
+};
+const createMovie = async (req, res) => {
+  // const testMovie = new Movie({});
+  // testMovie.save();
+  try {
+    const movie = await Movie.create(req.body);
+
+    res.status(201).json({ status: "success", data: { movie } });
+  } catch (error) {
+    console.log("Error while creating movie", error);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+const getOneMovie = async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
+
+  try {
+    res.status(200).json({
       status: "success",
+      data: {
+        movie: { movie },
+      },
+    });
+  } catch (error) {
+    console.log("error while getting one movie" + error);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+const updateMovie = async (req, res) => {
+  try {
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json({
+      status: "success",
+      data: {
+        movie: updatedMovie,
+      },
+    });
+  } catch (error) {
+    console.log("error while getting update movie" + error);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+const deleteMovie = async (req, res) => {
+  try {
+    await Movie.findByIdAndDelete(req.params.id);
+    res.status(204).json({
       data: {
         movie: null,
       },
     });
-  });
+  } catch (error) {
+    console.log("error while getting delete movie" + error);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };
 let obj = {
   getMovies,
@@ -107,5 +111,6 @@ let obj = {
   updateMovie,
   deleteMovie,
   getOneMovie,
+  validateBody,
 };
 export default obj;

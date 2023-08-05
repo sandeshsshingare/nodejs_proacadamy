@@ -10,7 +10,9 @@
   "author": "Sandesh Shingare",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "mongoose": "^7.4.2",
     "morgan": "^1.10.0"
   },
   "type": "module",
