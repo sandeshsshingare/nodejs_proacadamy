@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import obj from "../Controllers/moviesController.mjs";
 
+router.route("/highest-rated").get(obj.highestRated, obj.getMovies);
+
 router.route("/").get(obj.getMovies).post(obj.createMovie);
 
 router
