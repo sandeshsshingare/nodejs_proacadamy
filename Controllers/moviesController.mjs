@@ -23,18 +23,39 @@ const getMovies = async (req, res) => {
     req.query = JSON.parse(queryString);
     console.log(req.query);
 
-    let query = Movie.find();
+    let queryData = Movie.find();
     console.log("query");
-
+    //SORTING THE RESULTS
     if (req.query.sort) {
       const sortBy = req.query.sort.split(",").join(" ");
       console.log(req.query.sort);
-      query = query.sort(sortBy);
+      queryData = queryData.sort(sortBy);
     } else {
-      query = query.sort("-createdAt");
+      queryData = queryData.sort("-createdAt");
+    }
+    //LIMITING FIELDS
+    if (req.query.fields) {
+      const fields = req.query.fields.split(",").join(" ");
+      queryData = queryData.select(fields);
+    } else {
+      queryData = queryData.select("-__v");
     }
 
-    const movies = await query;
+    //PAGINATION
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 10;
+    const skip = (page - 1) * limit;
+    console.log("skip is " + skip);
+    console.log(queryData);
+    console.log("limit is", limit);
+    queryData = queryData.skip(skip).limit(limit);
+    if (req.query.page) {
+      const moviesCount = await Movie.countDocuments();
+      if (skip >= moviesCount) {
+        throw new Error("This page is not found!!!");
+      }
+    }
+    const movies = await queryData;
     // const movies = await Movie.find()
     //   .where("duration")
     //   .equals(req.query.duration)
@@ -51,7 +72,7 @@ const getMovies = async (req, res) => {
     console.log("error while get all movies", error);
     res.status(404).json({
       status: "fail",
-      message: error,
+      message: error.message,
     });
   }
 };
