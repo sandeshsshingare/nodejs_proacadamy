@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 console.log(app.get("env"));
 dotenv.config({ path: "./config.env" });
 mongoose
-  .connect(process.env.CONN_STR, {
+  .connect(process.env.LOCAL_CONN_STR, {
     useNewUrlParser: true,
     dbName: "cineflex",
   })

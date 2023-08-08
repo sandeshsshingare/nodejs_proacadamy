@@ -1,1 +1,47 @@
-[{"id":2,"name":"Expandabels","reLeaseYear":2008,"duration":80},{"id":3,"name":"Intersteller","reLeaseYear":2014,"duration":120},{"id":5,"name":"Test 5","reLeaseYear":1938,"duration":890},{"id":6,"name":"Test 1","reLeaseYear":1938,"duration":90},{"id":7,"name":"Test 1","releaseYear":1938,"duration":90},{"id":8,"name":"Test 1","releaseYear":1938,"duration":90},{"id":9,"name":"Test 1","releaseYear":1938,"duration":90}]
+[
+  {
+    "name": "Riddick",
+    "description": "Left for dead on a sun-scorched planet, Riddick finds himself up against an alien race of predators. Activating an",
+    "duration": 119,
+    "ratings": 6.8,
+    "totalRating": 329,
+    "TreleaseYear": 2013,
+    "releaseDate": "2013-09-04T08:00:002",
+    "genres": ["Action", "Sci-Fi", "Thriller"],
+    "directors": "David Tuohy",
+    "coverImage": "Riddick-2013.jpg",
+    "actors": ["Vin Diesel", "Karl Urban", "Katee Sackhoff"],
+    "price": 50,
+    "releaseYear": 2013
+  },
+  {
+    "name": "MI1",
+    "description": "Best Movie of all time",
+    "duration": 119,
+    "ratings": 9.9,
+    "totalRating": 429,
+    "TreleaseYear": 2013,
+    "releaseDate": "2014-09-04T08:00:002",
+    "genres": ["Action", "Sci-Fi", "Thriller"],
+    "directors": "David Tuohy",
+    "coverImage": "MI-2013.jpg",
+    "actors": ["Tom Cruise", " Anil Kapoor"],
+    "price": 100,
+    "releaseYear": 1996
+  },
+  {
+    "name": "Bahubali",
+    "description": "Best Movie",
+    "duration": 219,
+    "ratings": 7.8,
+    "totalRating": 629,
+    "TreleaseYear": 2016,
+    "releaseDate": "2016-09-04T08:00:002",
+    "genres": ["Action", "Sci-Fi", "Thriller"],
+    "directors": "s s rajamauli",
+    "coverImage": "Bahubali-2013.jpg",
+    "actors": ["Prabhas", "Kattappa", "Shivgamini"],
+    "price": 100,
+    "releaseYear": 2017
+  }
+]

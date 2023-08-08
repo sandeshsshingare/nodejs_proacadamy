@@ -14,7 +14,33 @@ const validateBody = (req, res, next) => {
 
 const getMovies = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    console.log(req.query);
+    let queryString = JSON.stringify(req.query);
+    queryString = queryString.replace(
+      /\b(gte|gt|lt|lte)\b/g,
+      (match) => `$${match}`
+    );
+    req.query = JSON.parse(queryString);
+    console.log(req.query);
+
+    let query = Movie.find();
+    console.log("query");
+
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      console.log(req.query.sort);
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort("-createdAt");
+    }
+
+    const movies = await query;
+    // const movies = await Movie.find()
+    //   .where("duration")
+    //   .equals(req.query.duration)
+    //   .where("ratings")
+    //   .equals(req.query.ratings);
+
     res.status(200).json({
       status: "success",
       data: {
