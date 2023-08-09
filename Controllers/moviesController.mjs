@@ -77,6 +77,7 @@ const getMovies = async (req, res) => {
 
     res.status(200).json({
       status: "success",
+      count: movies.length,
       data: {
         movie: { movies },
       },
@@ -100,7 +101,7 @@ const createMovie = async (req, res) => {
     console.log("Error while creating movie", error);
     res.status(400).json({
       status: "fail",
-      message: err.message,
+      message: error.message,
     });
   }
 };
@@ -182,7 +183,7 @@ const getMovieStats = async (req, res) => {
         },
       },
       { $sort: { maxPrice: 1 } },
-      { $match: { maxPrice: { $lte: 111 } } },
+      // { $match: { maxPrice: { $lte: 111 } } },
     ]);
 
     res.status(200).json({

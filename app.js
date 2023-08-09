@@ -26,5 +26,25 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 app.use("/api/v1/movies", moviesRouter); //this is called mounting middleware
+app.all("*", (req, res, next) => {
+  // res.status(404).json({
+  //   status: "fail",
+  //   message: `Can't find ${req.originalUrl} on the server`,
+  // });
+  const error = new Error(`Can't find ${req.originalUrl} on the server`);
+  error.statusCode = 404;
+  error.status = "failed";
+  next(error);
+});
 
+app.use((error, req, res, next) => {
+  error.statusCode = error.statusCode || 500;
+  error.status = error.status || "error";
+
+  res.status(error.statusCode).json({
+    status: error.status,
+    message: error.message,
+  });
+  next();
+});
 export default app;
