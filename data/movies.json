@@ -43,5 +43,37 @@
     "actors": ["Prabhas", "Kattappa", "Shivgamini"],
     "price": 100,
     "releaseYear": 2017
+  },
+  {
+    "name": "Sahoo",
+    "description": "Best Movie",
+    "duration": 140,
+    "ratings": 5.7,
+    "totalRating": 929,
+    "releaseYear": 2020,
+    "releaseDate": "2020-09-04T08:00:002",
+
+    "genres": ["Action", "Sci-Fi", "Thriller"],
+    "directors": ["s s rajamauli"],
+    "coverImage": "Bahubali-2013.jpg",
+    "actors": ["Prabhas", "Kattappa", "Shivgamini"],
+    "price": 150,
+    "__v": 0
+  },
+  {
+    "name": "Hulk",
+    "description": "Science friction movie",
+    "duration": 120,
+    "ratings": 7.7,
+    "totalRating": 1009,
+    "releaseYear": 2017,
+    "releaseDate": "2017-09-04T08:00:002",
+
+    "genres": ["Action", "Sci-Fi", "Thriller"],
+    "directors": ["s s rajamauli"],
+    "coverImage": "Hulk-2013.jpg",
+    "actors": ["Prabhas", "Kattappa", "Shivgamini"],
+    "price": 150,
+    "__v": 0
   }
 ]

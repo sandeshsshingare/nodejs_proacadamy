@@ -4,6 +4,10 @@ import obj from "../Controllers/moviesController.mjs";
 
 router.route("/highest-rated").get(obj.highestRated, obj.getMovies);
 
+router.route("/getMovieStat").get(obj.getMovieStats);
+
+router.route("/movies-geners/:genre").get(obj.getByGeners);
+
 router.route("/").get(obj.getMovies).post(obj.createMovie);
 
 router
