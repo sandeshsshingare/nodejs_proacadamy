@@ -1,6 +1,8 @@
 import express, { json } from "express";
 import moviesRouter from "./Routes/moviesRoutes.mjs";
 import morgan from "morgan";
+import customError from "./utils/CustomError.js";
+import globalErrorHandler from "./Controllers/errorController.js";
 const app = express();
 app.use(express.json());
 app.use(express.static("./public"));
@@ -31,20 +33,16 @@ app.all("*", (req, res, next) => {
   //   status: "fail",
   //   message: `Can't find ${req.originalUrl} on the server`,
   // });
-  const error = new Error(`Can't find ${req.originalUrl} on the server`);
-  error.statusCode = 404;
-  error.status = "failed";
+  // const error = new Error(`Can't find ${req.originalUrl} on the server`);
+  // error.statusCode = 404;
+  // error.status = "failed";
+  // next(error);
+  const error = new customError(
+    `Can't find ${req.originalUrl} on the server`,
+    404
+  );
   next(error);
 });
 
-app.use((error, req, res, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.status = error.status || "error";
-
-  res.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-  });
-  next();
-});
+app.use(globalErrorHandler);
 export default app;
