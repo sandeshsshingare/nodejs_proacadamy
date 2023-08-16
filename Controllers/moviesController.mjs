@@ -182,7 +182,7 @@ const getByGeners = asyncErrorHandler(async (req, res, next) => {
         movies: { $push: "$name" },
       },
     },
-    { $addFields: { genres: "$_id" } },
+    { $lds: { genres: "$_id" } },
     { $project: { _id: 0 } },
     { $sort: { movieCount: -1 } },
     // { $limit: 4 },
