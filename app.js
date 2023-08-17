@@ -3,6 +3,7 @@ import moviesRouter from "./Routes/moviesRoutes.mjs";
 import morgan from "morgan";
 import customError from "./utils/CustomError.js";
 import globalErrorHandler from "./Controllers/errorController.js";
+import authRouter from "./Routes/authRouter.js";
 const app = express();
 app.use(express.json());
 app.use(express.static("./public"));
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 app.use("/api/v1/movies", moviesRouter); //this is called mounting middleware
+app.use("/api/v1/users", authRouter);
 app.all("*", (req, res, next) => {
   // res.status(404).json({
   //   status: "fail",

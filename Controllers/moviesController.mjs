@@ -79,7 +79,7 @@ const getMovies = asyncErrorHandler(async (req, res, next) => {
     status: "success",
     count: movies.length,
     data: {
-      movie: { movies },
+      movie: movies,
     },
   });
 });
